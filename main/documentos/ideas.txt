@@ -1,0 +1,8 @@
+Posibles desarrollos:
+
+- Observar como aumenta el tiempo de ejecucion de EG para matrices de enteros a medida que aumenta la dimension (experimento1)
+- Comparar tiempos EG para matrices de enteros de distintas dimensiones (experimento1) vs EG para matrices de floats de distintas dimensiones (experimento2)
+- Observar como aumenta el tiempo de ejecucion de EG para matrices de enteros tridiagonles a medida que aumenta la dimension (experimento3)
+- Comparar tiempos EG para matrices tridiagonles de enteros de distintas dimensiones (experimento3) vs EG para matrices de enteros de distintas dimensiones (experimento1)
+- Comparar tiempos EG para matrices tridiagonles de enteros de distintas dimensiones (experimento3) vs EG para matrices tridiagonales de enteros de distintas dimensiones pero que no sabemos de antemano que son tridiganoles. Es decir, las tratamos como si no lo fueran (experimento4)
+- Definir una matriz tridiagonal de enteros y un un conjunto de posibles vectores solucion. Luego resolver todas las ecuaciones guardando la matriz L y comparar tiempos de resolver el mismo conjunto de ecuaciones pero sin guardar la matriz L. Es decir, volviendo a triangular. Repetir el experimento progresivamente aumentando la dimension de la matriz y los vectores solucion para ver la evolucion/degradacion de la performance a medida que aumenta el n
