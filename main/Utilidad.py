@@ -157,6 +157,6 @@ def recuperarVectoresAByCDeMatriz(matrix):
 def normaInfinitoDeVector(vector):
     maxEnModulo = 0
     for i in range(len(vector)):
-        if abs(vector[i]) > 0:
+        if abs(vector[i]) > maxEnModulo:
             maxEnModulo = abs(vector[i])
     return maxEnModulo
