@@ -8,7 +8,12 @@ from eg import EliminacionGaussiana, SustitucionHaciaAtras
 def ejecutar():
     diferenciasAbsolutas64 = []
     diferenciasAbsolutas32 = []
-    errores = [0.000002, 0.00002, 0.0002, 0.002, 0.02, 1]
+    errores = [0.000002, 0.000004, 0.000006, 0.000008,
+               0.00002, 0.00004, 0.00008, 0.00008,
+               0.0002, 0.0004, 0.0006, 0.0008,
+               0.002, 0.004, 0.006, 0.008, 0.002,
+               0.02,
+               1]
 
     for n in errores:
         # print(n)

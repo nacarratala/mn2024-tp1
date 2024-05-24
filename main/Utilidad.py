@@ -123,18 +123,19 @@ def vectorDeInversosDeTridiagonalPorVectorSolucion(vectorDeInversos, vectorSoluc
     return nuevoVectorSolucion
 
 
-# A = vector de Rn (diagonal)
-# B = vector de Rn-1 (arriba de la diagonal)
+# A = vector de Rn (arriba de la diagonal)
+# B = vector de Rn-1 (diagonal
 # c = vector de Rn-1 (abajo de la diagonal)
 # vector = vector de Rn
 def matrizTridiagonalPorVector(a, b, c, vector):
     n = len(vector)
     solucion = [0] * n
-    solucion[0] = a[0] * vector[0] + b[0] * vector[1]
-    solucion[n - 1] = c[n - 2] * vector[n - 2] + a[n - 1] * vector[n - 1]
+    solucion[0] = b[0] * vector[0] + a[0] * vector[1]
+    solucion[n - 1] = c[n - 2] * vector[n - 2] + b[n - 1] * vector[n - 1]
     for i in range(1, n - 1):
-        solucion[i] = c[i - 1] * vector[i - 1] + a[i] * vector[i] + b[i] * vector[i + 1]
+        solucion[i] = c[i - 1] * vector[i - 1] + b[i] * vector[i] + a[i] * vector[i + 1]
     return solucion
+
 
 
 # Solo para test

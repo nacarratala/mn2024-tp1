@@ -3,9 +3,9 @@ from copy import copy
 
 import matplotlib.pyplot as plt
 
-from eg import SustitucionHaciaAtras, EliminacionGaussiana
 from Utilidad import matrizTridiagonalDeEnterosRandom, vectorDeEnterosRandom, \
     vectorDeInversosDeTridiagonalPorVectorSolucion
+from eg import SustitucionHaciaAtras, EliminacionGaussiana
 
 # Esta experimentacion busca medir en tiempo la ventaja de generar la matriz L
 # para resolver, dado una matriz tridiagonal de enteros, un conjunto de ecuaciones.
@@ -24,46 +24,47 @@ from Utilidad import matrizTridiagonalDeEnterosRandom, vectorDeEnterosRandom, \
 # Para la ejecucion de este test se recomienda tener la advertencia por error numerico desactivada,
 # para observar los resutlados mas fieles posibles ya que el print es una operacion costosa
 
-RESULTS_TXT_FILE_NAME = "experimentacion/resultados/experimentacion5.txt"
+RESULTS_TXT_FILE_NAME = "/Users/nacarratala/Documents/facultad/mn-2024/labo/mn2024-tp1/main/experimentacion/resultados/experimentacion5.txt"
 WRITE_MODE = 'a'
 
 
 def ejecutar():
-    timesTradicional = []
-    timesOptimizado = []
+    # timesTradicional = []
+    # timesOptimizado = []
+    # dimensiones = range(20, 501, 20)
+    # for n in dimensiones:
+    #     resultado = ejecutarParaDimensionYCantidadDeSoluciones(n, 5, 100)
+    #     timesTradicional.append(resultado[0])
+    #     timesOptimizado.append(resultado[1])
+    #
+    # plt.plot(dimensiones, timesTradicional, label="Tradicional")
+    # plt.plot(dimensiones, timesOptimizado, label="Optimizado")
+    # plt.xlabel("n")
+    # plt.xscale("log")
+    # plt.ylabel("ns")
+    # plt.yscale("log")
+    # plt.legend(loc="upper left")
+    # plt.show()
+    #
+    # timesTradicional = []
+    # timesOptimizado = []
+    # for s in dimensiones:
+    #     resultado = ejecutarParaDimensionYCantidadDeSoluciones(5, s, 100)
+    #     timesTradicional.append(resultado[0])
+    #     timesOptimizado.append(resultado[1])
+    #
+    # plt.plot(dimensiones, timesTradicional, label="Tradicional")
+    # plt.plot(dimensiones, timesOptimizado, label="Optimizado")
+    # plt.xlabel("s")
+    # plt.ylabel("ns")
+    # plt.legend(loc="upper left")
+    # plt.show()
+
     dimensiones = range(20, 1001, 20)
-    for n in dimensiones:
-        resultado = ejecutarParaDimensionYCantidadDeSoluciones(n, 5)
-        timesTradicional.append(resultado[0])
-        timesOptimizado.append(resultado[1])
-
-    plt.plot(dimensiones, timesTradicional, label="Tradicional")
-    plt.plot(dimensiones, timesOptimizado, label="Optimizado")
-    plt.xlabel("n")
-    plt.xscale("log")
-    plt.ylabel("ns")
-    plt.yscale("log")
-    plt.legend(loc="upper left")
-    plt.show()
-
-    timesTradicional = []
-    timesOptimizado = []
-    for s in dimensiones:
-        resultado = ejecutarParaDimensionYCantidadDeSoluciones(5, s)
-        timesTradicional.append(resultado[0])
-        timesOptimizado.append(resultado[1])
-
-    plt.plot(dimensiones, timesTradicional, label="Tradicional")
-    plt.plot(dimensiones, timesOptimizado, label="Optimizado")
-    plt.xlabel("s")
-    plt.ylabel("ns")
-    plt.legend(loc="upper left")
-    plt.show()
-
     timesTradicional = []
     timesOptimizado = []
     for ns in dimensiones:
-        resultado = ejecutarParaDimensionYCantidadDeSoluciones(ns, ns)
+        resultado = ejecutarParaDimensionYCantidadDeSoluciones(ns, ns, 10)
         timesTradicional.append(resultado[0])
         timesOptimizado.append(resultado[1])
 
@@ -75,8 +76,8 @@ def ejecutar():
     plt.show()
 
 
-def ejecutarParaDimensionYCantidadDeSoluciones(n, s):
-    matrizTridiagonal = matrizTridiagonalDeEnterosRandom(n, 1, 50)
+def ejecutarParaDimensionYCantidadDeSoluciones(n, s, repeat):
+    matrizTridiagonal = matrizTridiagonalDeEnterosRandom(n, 1, 30)
     vectorA = matrizTridiagonal[0]
     vectorB = matrizTridiagonal[1]
     vectorC = matrizTridiagonal[2]
@@ -92,28 +93,39 @@ def ejecutarParaDimensionYCantidadDeSoluciones(n, s):
         vectoresSolucion[i] = vectorDeEnterosRandom(n, 1, 50)
     copiasDeVectoresSoluciones = copy(vectoresSolucion)
     try:
-        startTime = time.time_ns()
-        for i in range(s):
-            EliminacionGaussiana.paraMatrizTridiagonal(copiasDeVectorA[i], copiasDeVectorB[i], vectorC,
-                                                       vectoresSolucion[i])
-            SustitucionHaciaAtras.resolverParaMatrizTridiagonal(copiasDeVectorB[i], vectorC, vectoresSolucion[i])
-        endTimeTradicional = time.time_ns() - startTime
+        endtimeTradicionalResultados = [0] * repeat
+        for r in range(repeat):
+            startTime = time.time_ns()
+            for i in range(s):
+                EliminacionGaussiana.paraMatrizTridiagonal(copiasDeVectorA[i], copiasDeVectorB[i], vectorC,
+                                                           vectoresSolucion[i])
+                SustitucionHaciaAtras.resolverParaMatrizTridiagonal(copiasDeVectorB[i], vectorC, vectoresSolucion[i])
+            endTimeTradicional = time.time_ns() - startTime
+            endtimeTradicionalResultados[r] = endTimeTradicional
+        endtimeTradicionalPromedio = sum(endtimeTradicionalResultados) / repeat
         txtFile = open(RESULTS_TXT_FILE_NAME, WRITE_MODE)
-        txtFile.write("{0},{1},{2},".format(n, s, endTimeTradicional))
-        startTime = time.time_ns()
+        txtFile.write("{0},{1},{2},".format(n, s, endtimeTradicionalPromedio))
         vectorDeInversos = None
-        for i in range(s):
-            if vectorDeInversos is None:
-                # Tomo la ulitma copia de A y B(hasta aqui se usaron S copias)
-                # Las modifico una unica vez y ya quedan re-utilizables para las proximas iteraciones
-                vectorDeInversos = EliminacionGaussiana.paraMatrizTridiagonalGenerandoVectorDeInversos(
-                    copiasDeVectorA[s], copiasDeVectorB[s], vectorC)
-            vectorSolucion = copiasDeVectoresSoluciones[i]
-            nuevoVectorSolucion = vectorDeInversosDeTridiagonalPorVectorSolucion(vectorDeInversos, vectorSolucion)
-            SustitucionHaciaAtras.resolverParaMatrizTridiagonal(copiasDeVectorB[s], vectorC, nuevoVectorSolucion)
-        endTimeOptimizado = time.time_ns() - startTime
+        endtimeOptimizadoResultados = [0] * repeat
+        for r in range(repeat):
+            startTime = time.time_ns()
+            for i in range(s):
+                if vectorDeInversos is None:
+                    # Tomo la ulitma copia de A y B (hasta aqui se usaron S copias)
+                    # Las modifico una unica vez y ya quedan re-utilizables para las proximas iteraciones
+                    vectorDeInversos = EliminacionGaussiana.paraMatrizTridiagonalGenerandoVectorDeInversos(
+                        copiasDeVectorA[s], copiasDeVectorB[s], vectorC)
+                vectorSolucion = copiasDeVectoresSoluciones[i]
+                nuevoVectorSolucion = vectorDeInversosDeTridiagonalPorVectorSolucion(vectorDeInversos, vectorSolucion)
+                SustitucionHaciaAtras.resolverParaMatrizTridiagonal(copiasDeVectorB[s], vectorC, nuevoVectorSolucion)
+            endTimeOptimizado = time.time_ns() - startTime
+            endtimeOptimizadoResultados[r] = endTimeOptimizado
+        endtimeOptimizadoPromedio = sum(endtimeOptimizadoResultados) / repeat
         txtFile = open(RESULTS_TXT_FILE_NAME, WRITE_MODE)
-        txtFile.write("{0}\n".format(endTimeOptimizado))
-        return [endTimeTradicional, endTimeOptimizado]
+        txtFile.write("{0}\n".format(endtimeOptimizadoPromedio))
+        return [endtimeTradicionalPromedio, endtimeOptimizadoPromedio]
     except TypeError:
-        ejecutarParaDimensionYCantidadDeSoluciones(n, s)
+        ejecutarParaDimensionYCantidadDeSoluciones(n, s, repeat)
+
+
+ejecutar()

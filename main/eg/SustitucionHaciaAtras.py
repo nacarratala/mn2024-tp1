@@ -1,7 +1,7 @@
 import numpy as np
 
-from EliminacionGaussiana import EPSILON, ADVERTENCIA_ACTIVADA
 from Utilidad import notificarPosibleErrorNumerico
+from eg.EliminacionGaussiana import ADVERTENCIA_ACTIVADA, EPSILON
 
 
 # Toma: Una matriz A y un vector solucion. Opcionalmente toma un threshold que representa el limite de error numerico aceptado

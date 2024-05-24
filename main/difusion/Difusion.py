@@ -7,15 +7,15 @@ from eg import SustitucionHaciaAtras, EliminacionGaussiana
 import Utilidad
 
 IMPLICIT_RESULTS_TXT_FILE_NAME = "difusion/resultados/difusion_implicita.txt"
-EXPLICIT_RESULTS_TXT_FILE_NAME = "difusion/resultados/difusion_implicita.txt"
+EXPLICIT_RESULTS_TXT_FILE_NAME = "difusion/resultados/difusion_explicita.txt"
 
 WRITE_MODE = 'a'
 
 
-def resolverImplicito(n, r, m):
-    vectorAdeMatrizA = [-1] * n
-    vectorBdeMatrizA = [3] * n
-    vectorCdeMatrizA = [-1] * n
+def resolverImplicito(n, r, m, alpha):
+    vectorAdeMatrizA = [-(1 * alpha)] * n
+    vectorBdeMatrizA = [-((-2 * alpha) - 1)] * n
+    vectorCdeMatrizA = [-(1 * alpha)] * n
     vectorDeInversos = EliminacionGaussiana.paraMatrizTridiagonalGenerandoVectorDeInversos(vectorAdeMatrizA,
                                                                                            vectorBdeMatrizA,
                                                                                            vectorCdeMatrizA)
@@ -49,10 +49,10 @@ def generarUiCero(n, r):
     return vectorU
 
 
-def resolverExplicito(n, r, m):
-    vectorAdeMatrizA = [1] * n
-    vectorBdeMatrizA = [-1] * n
-    vectorCdeMatrizA = [1] * n
+def resolverExplicito(n, r, m, alpha):
+    vectorAdeMatrizA = [1 * alpha] * n
+    vectorBdeMatrizA = [(-2 * alpha) + 1] * n
+    vectorCdeMatrizA = [1 * alpha] * n
 
     vectoresUCalculados = [[0] * m for _ in range(m)]
 
