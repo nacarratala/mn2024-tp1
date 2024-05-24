@@ -14,8 +14,10 @@ def main():
     # Experimentacion4.ejecutar()
     # Experimentacion5.ejecutar()
     # Experimentacion5Bis.ejecutar()
-    #difusion.Difusion.resolverImplicito(101, 10, 1000, 2)
-    difusion.Difusion.resolverExplicito(101, 10, 1000, 0.1)
+    #10, 3, 1, 0.1
+    #difusion.Difusion.resolverImplicito(101, 10, 1000, 10)
+    # 0.05, 0.2, 0.5, 0.50009, 0.75
+    difusion.Difusion.resolverExplicito(101, 10, 1000, 0.75)
 
 
 

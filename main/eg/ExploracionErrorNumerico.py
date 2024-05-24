@@ -8,26 +8,54 @@ from eg import EliminacionGaussiana, SustitucionHaciaAtras
 def ejecutar():
     diferenciasAbsolutas64 = []
     diferenciasAbsolutas32 = []
-    errores = [0.000002, 0.000004, 0.000006, 0.000008,
-               0.00002, 0.00004, 0.00008, 0.00008,
-               0.0002, 0.0004, 0.0006, 0.0008,
-               0.002, 0.004, 0.006, 0.008, 0.002,
-               0.02,
-               1]
+    errores = [0.00001]
+    # errores = [0.000002, 0.000004, 0.000008,
+    #            0.00002, 0.00004, 0.00008, 0.00008,
+    #            0.0002, 0.0006, 0.0008,
+    #            0.002, 0.004, 0.006, 0.008,
+    #            0.02, 0.06, 0.08,
+    #            1]
 
     for n in errores:
         # print(n)
         diferenciasAbsolutas = ejecutarParaError(n)
         diferenciasAbsolutas64.append(diferenciasAbsolutas[0])
         diferenciasAbsolutas32.append(diferenciasAbsolutas[1])
-    plt.plot(errores, diferenciasAbsolutas64)
-    plt.plot(errores, diferenciasAbsolutas32)
-
-    plt.xlabel("n")
+    plt.plot(errores, diferenciasAbsolutas64, label="Diferencia 64 bits")
+    plt.plot(errores, diferenciasAbsolutas32, label="Diferencia 32 bits")
+    plt.legend(loc="upper right")
+    plt.xlabel("Epsilon")
     plt.xscale("log")
-    plt.ylabel("dif")
+    plt.ylabel("Error")
     plt.yscale("log")
     plt.show()
+
+    # diferenciasAbsolutas64 = []
+    # diferenciasAbsolutas32 = []
+    # errores = [0.000001, 0.00001, 0.0001, 0.001, 0.01, 0.01, 1]
+    #
+    #
+    # for n in errores:
+    #     # print(n)
+    #     diferenciasAbsolutas = ejecutarParaError(n)
+    #     diferenciasAbsolutas64.append(diferenciasAbsolutas[0])
+    #     diferenciasAbsolutas32.append(diferenciasAbsolutas[1])
+    #
+    # # Set width of bar
+    # barWidth = 0.25
+    # # Set position of bar on X axis
+    # br1 = np.arange(7)
+    # br2 = [x + barWidth for x in br1]
+    # # Make the plot
+    # plt.bar(br1, diferenciasAbsolutas64, color='r', width=barWidth, edgecolor='grey', label='Diferencia 64 bits')
+    # plt.bar(br2, diferenciasAbsolutas32, color='g', width=barWidth, edgecolor='grey', label='Diferencia 32 bits')
+    # # Adding Xticks
+    # plt.xlabel('Epsilon', fontweight='bold', fontsize=8, ha='center')
+    # plt.ylabel('Error', fontweight='bold', fontsize=8, ha='center')
+    # plt.yscale("log")
+    # plt.xticks([r + barWidth / 2 for r in range(7)], errores, ha='center')
+    # plt.legend()
+    # plt.show()
 
 
 def ejecutarParaError(e):
@@ -53,7 +81,7 @@ def ejecutarParaError(e):
     #print("Error 32 para " + str(e) + " " + str(error32))
 
     diferenciaAbsoluta64 = Utilidad.normaInfinitoDeVector(error64)
-    print("Error 64 para " + str(e) + " " + str(diferenciaAbsoluta64))
+    #print("Error 64 para " + str(e) + " " + str(diferenciaAbsoluta64))
     diferenciaAbsoluta32 = Utilidad.normaInfinitoDeVector(error32)
     print("Error 32 para " + str(e) + " " + str(diferenciaAbsoluta32))
     return diferenciaAbsoluta64, diferenciaAbsoluta32
